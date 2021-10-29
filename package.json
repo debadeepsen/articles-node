@@ -1,0 +1,25 @@
+{
+  "name": "articles-node",
+  "version": "1.0.0",
+  "description": "The NodeJS/Express backend for the articles repository",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/debadeepsen/articles-node.git"
+  },
+  "author": "Debadeep Sen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/debadeepsen/articles-node/issues"
+  },
+  "homepage": "https://github.com/debadeepsen/articles-node#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "mysql": "^2.18.1"
+  }
+}
