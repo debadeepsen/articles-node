@@ -1,19 +1,21 @@
 
 
-exports.queryAndReturn = (res, queryText) => {
+exports.queryAndReturn = (res, queryText, returnSingle = false) => {
     const mysql = require('../controllers/mysql.controller');
     mysql.query(queryText)
         .then(({ response }) => {
             res.status(200).send({
                 success: true,
-                data: response
+                data: returnSingle ? response[0] : response,
+                message: "Success"
             });
         })
         .catch((err) => {
             res.status(400).send({
                 success: false,
                 err,
-                data: null
+                data: null,
+                message: JSON.stringify(err)
             });
         })
 }

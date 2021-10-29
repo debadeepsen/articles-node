@@ -1,13 +1,15 @@
 const { CATEGORY_NAME } = require('../../config/constants');
 const { queryAndReturn, getQueryResults } = require('../utils/lib');
 
+
 exports.getArticles = (req, res) => {
 
     let cond = req.query.all ? '1' : 'a.active';
     let limit_by = (req.query.limit > 0) ? `LIMIT ${req.query.start}, ${req.query.limit}` : "";
     const day_threshold_for_new = 5;
     let query = `SELECT c.CategoryName,
-                a.*, group_concat(t.tag_text) AS tag_list, timestampdiff(DAY, a.created, now()) < ${day_threshold_for_new} is_new 
+                a.id, a.title, a.subtitle, a.created, a.url,
+                group_concat(t.tag_text) AS tag_list, timestampdiff(DAY, a.created, now()) < ${day_threshold_for_new} is_new 
                 FROM article a 
                 LEFT JOIN articletags atg on a.id = atg.article_id 
                 LEFT JOIN tags t on t.id = atg.tag_id
@@ -38,15 +40,18 @@ exports.getArticles = (req, res) => {
 
 
             return res.status(200).send({
-                status: true,
-                data: list
+                success: true,
+                data: list,
+                message: 'Success'
             })
         })
         .catch((err) => {
             console.log(err)
             return res.status(400).send({
-                status: false,
-                err
+                success: false,
+                err,
+                data: null,
+                message: JSON.stringify(err)
             })
         })
 }
@@ -65,5 +70,5 @@ exports.getArticleBySlug = (req, res) => {
                 GROUP BY a.id
                 ORDER BY a.created desc, a.updated desc`;
 
-    return queryAndReturn(res, query);
+    return queryAndReturn(res, query, true);
 }
